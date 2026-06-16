@@ -1,0 +1,2193 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d2d5e" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="FinVIPs" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>Financial VIPs — Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e8f4fb;
+    --bg-2:#d0e9f5;
+    --ink:#0a1f3d;
+    --ink-soft:#1a3a5c;
+    --muted:#4a7fa5;
+    --accent:#0d2d5e;
+    --accent-2:#009ec4;
+    --accent-3:#1a72b8;
+    --good:#0a8a4a;
+    --bad:#b81a1a;
+    --line:#0d2d5e;
+    --paper:#f0f8fd;
+    --blue-1:#0d2d5e;
+    --blue-2:#1a72b8;
+    --blue-3:#00a8d4;
+    --blue-4:#5bbde4;
+    --blue-5:#a8d8f0;
+    --dot-color:rgba(13,45,94,.07);
+    --header-bg:#0d2d5e;
+  }
+
+  /* Dark Mode */
+  [data-theme="dark"]{
+    --bg:#0f1923;
+    --bg-2:#151f2e;
+    --ink:#dce8f5;
+    --ink-soft:#8fafc8;
+    --muted:#5a85a8;
+    --accent:#2a5298;
+    --accent-2:#00a8d4;
+    --accent-3:#1a72b8;
+    --good:#1a9e5c;
+    --bad:#d94040;
+    --line:#2a4060;
+    --paper:#192435;
+    --blue-1:#4a90d9;
+    --blue-2:#5ba3e8;
+    --blue-3:#00c2f0;
+    --blue-4:#3a7fbf;
+    --blue-5:#2a5580;
+    --dot-color:rgba(100,160,220,.06);
+    --header-bg:#0a1520;
+  }
+  [data-theme="dark"] header.top{background:var(--header-bg);border-bottom-color:#2a4060}
+  [data-theme="dark"] .opt:hover{background:#1e3048}
+  [data-theme="dark"] .opt.correct{background:#0f2e1a;border-color:var(--good)}
+  [data-theme="dark"] .opt.wrong{background:#2e0f0f;border-color:var(--bad)}
+  [data-theme="dark"] .opt.missed{background:#1e2a10;border-color:#4a9040}
+  [data-theme="dark"] .semtab{background:var(--bg-2)}
+  [data-theme="dark"] .semtab.active{background:var(--paper)}
+  [data-theme="dark"] .drawer:hover{background:var(--bg-2)}
+  [data-theme="dark"] .drawer.active{background:var(--paper)}
+  [data-theme="dark"] .controls{background:var(--bg-2)}
+  [data-theme="dark"] .retry-btn{background:var(--paper);color:var(--ink);border-color:var(--line)}
+  [data-theme="dark"] .retry-btn:hover{background:var(--blue-4);color:#fff}
+
+  /* Dark Mode Toggle Button */
+  #darkToggle{
+    background:none;border:1.2px solid rgba(255,255,255,0.3);
+    color:rgba(255,255,255,0.85);cursor:pointer;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 11px;border-radius:2px;
+    display:flex;align-items:center;gap:6px;
+    transition:border-color .15s,background .15s;
+    white-space:nowrap;flex-shrink:0;
+  }
+  #darkToggle:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6)}
+  #darkToggle .tog-icon{font-size:14px;line-height:1}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter Tight',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{
+    background-image:
+      radial-gradient(var(--dot-color) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  /* Header */
+  header.top{
+    border-bottom:1.5px solid var(--blue-1);
+    padding:14px 26px;
+    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+    background:var(--header-bg);
+    position:sticky;top:0;z-index:50;
+  }
+  .brand{
+    font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;
+    font-size:22px;font-variation-settings:"SOFT" 30;
+    color:#ffffff;
+  }
+  .brand em{font-style:italic;font-weight:400;color:var(--blue-4)}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:.12em}
+
+  /* Hero */
+  .hero{
+    padding:48px 26px 28px;
+    border-bottom:1.5px solid var(--line);
+    display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:end;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-size:clamp(48px,7vw,108px);
+    line-height:.92;letter-spacing:-.035em;
+    margin:0;font-weight:900;
+    font-variation-settings:"opsz" 144,"SOFT" 20;
+  }
+  .hero h1 .it{font-style:italic;font-weight:400;color:var(--blue-3)}
+  .hero h1 .num{
+    display:inline-block;font-family:'JetBrains Mono',monospace;
+    font-size:.32em;vertical-align:top;color:var(--blue-2);
+    border:1.5px solid var(--blue-2);padding:6px 10px;border-radius:0;
+    margin-left:14px;letter-spacing:.05em;font-weight:500;
+  }
+  .lede{
+    font-size:15px;line-height:1.55;color:var(--ink-soft);max-width:46ch;
+  }
+  .lede strong{font-weight:600;color:var(--ink)}
+
+  /* Drawer / Leitner box system */
+  .drawers{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    border-bottom:1.5px solid var(--line);
+  }
+  .drawer{
+    padding:16px 20px;cursor:pointer;border-right:1px solid #00000022;
+    transition:background .15s ease;position:relative;
+  }
+  .drawer:last-child{border-right:none}
+  .drawer:hover{background:var(--bg)}
+  .drawer.active{background:var(--paper)}
+  .drawer.active::after{
+    content:"";position:absolute;bottom:-1.5px;left:0;right:0;height:3px;
+  }
+  .drawer[data-box="0"].active::after{background:var(--blue-5)}
+  .drawer[data-box="1"].active::after{background:var(--blue-3)}
+  .drawer[data-box="2"].active::after{background:var(--good)}
+  .drawer .dlabel{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:4px;
+  }
+  .drawer .dcount{
+    font-family:'Fraunces',serif;font-weight:900;font-size:28px;letter-spacing:-.02em;line-height:1;
+  }
+  .drawer[data-box="0"] .dcount{color:var(--muted)}
+  .drawer[data-box="1"] .dcount{color:var(--blue-3)}
+  .drawer[data-box="2"] .dcount{color:var(--good)}
+  .drawer .dbar{
+    margin-top:8px;height:4px;background:#00000012;border-radius:2px;overflow:hidden;
+  }
+  .drawer .dfill{height:100%;border-radius:2px;transition:width .4s ease}
+  .drawer[data-box="0"] .dfill{background:var(--blue-5)}
+  .drawer[data-box="1"] .dfill{background:var(--blue-3)}
+  .drawer[data-box="2"] .dfill{background:var(--good)}
+
+  .streak-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;margin-left:8px;
+    border-radius:2px;vertical-align:middle;
+  }
+  .streak-badge.s0{background:var(--blue-5);color:var(--blue-1)}
+  .streak-badge.s1{background:var(--blue-4);color:var(--blue-1)}
+  .streak-badge.s2{background:#c8f0dc;color:var(--good)}
+
+  /* Retry button */
+  .retry-btn{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;font-weight:600;
+    padding:7px 14px;margin-top:10px;
+    border:1.2px solid var(--line);background:var(--paper);cursor:pointer;
+    transition:transform .1s ease, background .12s ease;
+  }
+  .retry-btn:hover{background:var(--blue-2);color:var(--paper);border-color:var(--blue-2);transform:translate(-1px,-1px)}
+
+  /* Semester tabs */
+  .semtabs{
+    display:flex;gap:0;border-bottom:1.5px solid var(--line);
+  }
+  .semtab{
+    flex:1;padding:16px 26px;
+    font-family:'Fraunces',serif;font-size:18px;font-weight:700;letter-spacing:-.01em;
+    cursor:pointer;border:none;background:var(--bg-2);color:var(--muted);
+    border-right:1px solid #00000022;
+    transition:background .15s ease, color .15s ease;
+    position:relative;
+  }
+  .semtab:last-child{border-right:none}
+  .semtab:hover{background:var(--bg);color:var(--ink)}
+  .semtab.active{background:var(--paper);color:var(--blue-1)}
+  .semtab.active::after{
+    content:"";position:absolute;bottom:-1.5px;left:0;right:0;height:3px;background:var(--blue-3);
+  }
+  .semtab .cnt{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);margin-left:10px;font-weight:500;
+  }
+
+  /* Controls bar */
+  .controls{
+    display:flex;flex-wrap:wrap;gap:10px;padding:18px 26px;
+    border-bottom:1.5px solid var(--line);background:var(--bg-2);
+  }
+  .pill{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:7px 14px;border:1.2px solid var(--line);background:var(--paper);cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .pill:hover{background:var(--blue-1);color:var(--paper);transform:translate(-1px,-1px)}
+  .pill.active{background:var(--blue-2);color:var(--paper);border-color:var(--blue-2)}
+  .pill[data-action]{margin-left:auto}
+  .controls .group{display:flex;gap:8px;flex-wrap:wrap}
+  .spacer{flex:1}
+
+  /* Score panel */
+  .scorebar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border-bottom:1.5px solid var(--line);
+  }
+  .scorebar > div{
+    padding:14px 22px;border-right:1px solid #00000022;
+  }
+  .scorebar > div:last-child{border-right:none}
+  .scorebar .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .scorebar .v{font-family:'Fraunces',serif;font-weight:900;font-size:30px;letter-spacing:-.02em;line-height:1}
+  .scorebar .v small{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0}
+
+  /* Quiz body */
+  main{padding:34px 26px 80px;max-width:1180px;margin:0 auto}
+  .row{
+    display:grid;grid-template-columns:80px 1fr;gap:18px;
+    border-top:1px dashed #00000033;padding:26px 0;
+    align-items:start;
+  }
+  .row:first-child{border-top:none;padding-top:8px}
+  .qnum{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    font-size:54px;line-height:1;color:var(--blue-3);letter-spacing:-.02em;
+  }
+  .qtag{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--blue-2);
+    border:1px solid var(--blue-2);padding:3px 8px;margin-bottom:10px;
+  }
+  .qtype{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-left:6px;
+  }
+  .qtext{
+    font-family:'Fraunces',serif;font-size:21px;line-height:1.35;letter-spacing:-.005em;
+    margin:0 0 16px;font-weight:500;color:var(--ink);
+  }
+  .opts{display:flex;flex-direction:column;gap:8px;max-width:780px}
+  .opt{
+    display:flex;align-items:flex-start;gap:12px;padding:12px 14px;
+    background:var(--paper);border:1.2px solid var(--line);cursor:pointer;
+    transition:transform .1s ease, background .12s ease, border-color .12s ease;
+    font-size:15px;line-height:1.4;
+    position:relative;
+  }
+  .opt:hover{transform:translate(-1px,-1px);background:#e0f2fa}
+  .opt input{accent-color:var(--blue-2);margin-top:3px;flex-shrink:0}
+  .opt .label{flex:1}
+  .opt .mark{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;font-weight:700;
+  }
+
+  /* States after grading */
+  .opt.correct{background:#e7f1e9;border-color:var(--good);animation:flashGood .4s ease}
+  .opt.correct .mark{color:var(--good)}
+  .opt.wrong{background:#f5e0e0;border-color:var(--bad);animation:flashBad .4s ease}
+  .opt.wrong .mark{color:var(--bad)}
+  .opt.missed{background:#fff3e0;border-color:var(--accent-2);border-style:dashed}
+  .opt.missed .mark{color:var(--accent-2)}
+
+  @keyframes flashGood{
+    0%{background:#b6e8c4;transform:scale(1.01)}
+    100%{background:#e7f1e9;transform:scale(1)}
+  }
+  @keyframes flashBad{
+    0%{background:#f5b0b0;transform:scale(1.01)}
+    100%{background:#f5e0e0;transform:scale(1)}
+  }
+
+  .row.locked .opt{pointer-events:none;opacity:.85;cursor:default}
+  .row.locked .opt:hover{transform:none}
+  .row.locked .opt input{pointer-events:none}
+
+  .check-ms{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    font-weight:700;padding:9px 18px;margin-top:8px;
+    border:1.5px solid var(--blue-2);background:var(--blue-2);color:var(--paper);cursor:pointer;
+    transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .check-ms:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--blue-3)}
+  .check-ms:disabled{opacity:.4;pointer-events:none}
+
+  .verdict{
+    margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;
+  }
+  .verdict.ok{color:var(--good)}
+  .verdict.no{color:var(--bad)}
+  .verdict.pending{color:var(--muted)}
+
+  /* Bottom action */
+  .actions{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    display:flex;gap:10px;z-index:60;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;font-weight:700;
+    padding:14px 22px;border:1.5px solid var(--blue-1);cursor:pointer;
+    background:var(--blue-1);color:var(--paper);box-shadow:4px 4px 0 var(--blue-3);
+    transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--blue-3)}
+  .btn.secondary{background:var(--paper);color:var(--blue-1);box-shadow:4px 4px 0 var(--blue-2)}
+  .btn.secondary:hover{box-shadow:6px 6px 0 var(--blue-2)}
+
+  /* Filter category bar */
+  .catbar{
+    padding:12px 26px;border-bottom:1.5px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);
+    letter-spacing:.1em;text-transform:uppercase;
+    display:flex;gap:18px;flex-wrap:wrap;
+  }
+  .catbar span b{color:var(--ink);font-weight:700}
+
+  .hidden{display:none !important}
+
+  /* Result modal */
+  .result{
+    margin-top:40px;padding:30px;border:1.5px solid var(--line);
+    background:linear-gradient(135deg,var(--blue-1) 0%,var(--blue-2) 100%);
+    color:var(--paper);position:relative;overflow:hidden;
+  }
+  .result::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 80% 20%,rgba(0,168,212,.5) 0%,transparent 50%);
+    pointer-events:none;
+  }
+  .result h2{
+    font-family:'Fraunces',serif;font-size:48px;margin:0 0 8px;font-weight:900;letter-spacing:-.02em;
+    position:relative;
+  }
+  .result .big{
+    font-family:'Fraunces',serif;font-size:120px;font-weight:900;line-height:1;letter-spacing:-.04em;
+    font-style:italic;color:var(--blue-5);position:relative;
+  }
+  .result .big sub{font-size:30px;color:var(--paper);font-style:normal;font-weight:500;vertical-align:baseline}
+  .result p{position:relative;max-width:60ch;font-size:15px;line-height:1.5;opacity:.92}
+
+  /* Footer */
+  footer{
+    border-top:1.5px solid var(--line);padding:18px 26px;
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  /* ── Mobile / Responsive ─────────────────────────────── */
+  @media (max-width:760px){
+    /* Hero */
+    .hero{
+      grid-template-columns:1fr;gap:14px;
+      padding:24px 16px 18px;
+    }
+    .hero h1{font-size:clamp(38px,11vw,64px)}
+    .hero h1 .num{display:inline-block;font-size:.38em;margin-left:10px}
+    .lede{font-size:14px}
+
+    /* Header */
+    header.top{padding:10px 14px;gap:10px}
+    .brand{font-size:17px}
+    .meta{font-size:9px;letter-spacing:.08em}
+
+    /* Semester-Tabs */
+    .semtabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .semtab{padding:12px 18px;font-size:15px;white-space:nowrap}
+
+    /* Drawers */
+    .drawers{grid-template-columns:repeat(3,1fr)}
+    .drawer{padding:10px 10px}
+    .drawer .dlabel{font-size:8.5px}
+    .drawer .dcount{font-size:20px}
+    .drawer .dbar{margin-top:5px}
+
+    /* Controls / Pills */
+    .controls{padding:10px 12px;gap:7px}
+    .pill{
+      font-size:10px;padding:7px 10px;
+      letter-spacing:.07em;
+    }
+    .controls .group{gap:6px}
+
+    /* Category bar */
+    .catbar{padding:9px 14px;gap:10px;font-size:10px}
+
+    /* Scorebar: 2×2 grid */
+    .scorebar{grid-template-columns:repeat(2,1fr)}
+    .scorebar > div{padding:10px 14px}
+    .scorebar .k{font-size:9.5px}
+    .scorebar .v{font-size:24px}
+
+    /* Quiz rows */
+    main{padding:18px 14px 100px}
+    .row{
+      grid-template-columns:1fr;gap:4px;
+      padding:18px 0;
+    }
+    .qnum{font-size:28px;line-height:1;margin-bottom:2px}
+    .qtext{font-size:17px;line-height:1.35;margin-bottom:12px}
+    .qtag{font-size:9px;padding:2px 6px}
+    .qtype{font-size:9px}
+
+    /* Options */
+    .opts{gap:7px}
+    .opt{
+      padding:13px 12px;font-size:14px;
+      gap:10px;
+      /* Bigger touch targets */
+      min-height:48px;
+    }
+    .opt input{
+      width:18px;height:18px;
+      margin-top:1px;flex-shrink:0;
+    }
+    .opt .mark{font-size:9px}
+
+    /* Check button (ms) */
+    .check-ms{
+      font-size:10px;padding:11px 16px;margin-top:6px;width:100%;
+    }
+
+    /* Retry button */
+    .retry-btn{
+      font-size:10px;padding:9px 14px;margin-top:8px;
+      width:100%;text-align:center;
+    }
+
+    /* Bottom action bar — stack vertically, full width */
+    .actions{
+      bottom:0;left:0;right:0;
+      transform:none;
+      flex-direction:column;gap:0;
+      background:var(--bg);
+      border-top:1.5px solid var(--line);
+      padding:8px 12px 12px;
+      /* Safe area for iPhone home indicator */
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));
+    }
+    .btn{
+      width:100%;text-align:center;font-size:11px;
+      padding:13px 16px;
+      box-shadow:3px 3px 0 var(--blue-3);
+    }
+    .btn.secondary{box-shadow:3px 3px 0 var(--blue-2)}
+    #wipeBtn{box-shadow:3px 3px 0 var(--bad) !important}
+
+    /* Result panel */
+    .result{padding:20px 16px}
+    .result h2{font-size:32px}
+    .result .big{font-size:80px}
+
+    /* Footer */
+    footer{padding:12px 14px;font-size:9px;flex-direction:column;gap:4px}
+
+    /* Verdict + streak badge */
+    .verdict{font-size:10px}
+    .streak-badge{font-size:9px;padding:2px 6px}
+
+    /* Table overflow in questions */
+    .qtable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0}
+    .qtable-wrap table{min-width:380px}
+  }
+
+  /* Extra-small phones (≤380px) */
+  @media (max-width:380px){
+    .brand{font-size:15px}
+    .meta{display:none}
+    .hero h1{font-size:34px}
+    .semtab{padding:10px 14px;font-size:13px}
+    .drawer .dcount{font-size:17px}
+    .qtext{font-size:15px}
+    .opt{font-size:13px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">Financial <em>VIPs</em> — Drill</div>
+  <div class="meta">IFRS · IAS · Revenue · Leases · PP&amp;E</div>
+  <button id="darkToggle" title="Dark/Light Mode umschalten"><span class="tog-icon">🌙</span><span class="tog-label">Dark</span></button>
+</header>
+
+<section class="hero">
+  <h1>True, <span class="it">False</span>,<br>or <span class="it">none of the listed.</span>
+    <span class="num" id="qCount">— Q</span>
+  </h1>
+  <p class="lede">Karteikarten-System mit <strong>3 Schubladen</strong>: Noch nicht gelernt → Am Lernen → Gelernt (nach 5× richtig). Dein Fortschritt wird im Browser gespeichert. Klick eine Antwort → sofortiges Feedback. Nach jeder Frage kannst du sie <strong>nochmal</strong> versuchen.</p>
+</section>
+
+<div class="semtabs" id="semtabs"></div>
+
+<div class="catbar" id="catbar"></div>
+
+<div class="drawers" id="drawers"></div>
+
+<div class="controls" id="controls">
+  <div class="group" id="filters"></div>
+  <div class="spacer"></div>
+  <button class="pill" id="shuffleBtn">Shuffle</button>
+  <button class="pill" id="resetBtn">Reset</button>
+</div>
+
+<div class="scorebar">
+  <div><div class="k">Beantwortet</div><div class="v"><span id="sAnswered">0</span><small> / <span id="sTotal">0</span></small></div></div>
+  <div><div class="k">Richtig</div><div class="v" style="color:var(--good)"><span id="sCorrect">0</span></div></div>
+  <div><div class="k">Falsch</div><div class="v" style="color:var(--bad)"><span id="sWrong">0</span></div></div>
+  <div><div class="k">Quote</div><div class="v"><span id="sPct">—</span><small>%</small></div></div>
+</div>
+
+<main id="quiz"></main>
+
+<div class="actions">
+  <button class="btn" id="resultBtn">Ergebnis anzeigen</button>
+  <button class="btn secondary" id="clearBtn">Antworten löschen</button>
+  <button class="btn secondary" id="wipeBtn" style="box-shadow:4px 4px 0 var(--bad);border-color:var(--bad);color:var(--bad)">Fortschritt löschen</button>
+</div>
+
+<footer>
+  <span>VIPs · IFRS Drill</span>
+  <span id="footTotal">— Fragen</span>
+</footer>
+
+<script>
+// ============================================================
+// QUESTION BANK
+// types:
+//   "tf"  -> True/False (2 options)
+//   "tfn" -> True / False / None of the listed (3 options)
+//   "ms"  -> Multiple select (>=1 correct)
+//   "sc"  -> Single choice non-TF
+// ============================================================
+const QUESTIONS = [
+  // --- Exercise 1 (page 1, scrambled text from page 2 readable) ---
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"The main purpose of accrual accounting is to measure current cash flows.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"IFRS standards are created, discussed, and introduced by a small group of people who have full control of the process.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"The recognition criteria assess the relevance and the faithful representation of a business activity.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"ASSET accounts are DEBIT side by nature. So, if you need to decrease an asset account you must place more debits on that account. But if you need to increase, place more credits.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"One limitation of the balance sheet is that it does not provide information to assess a company's financial flexibility.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"FIFO means that inventories which have been acquired last are consumed first.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"Measurement uncertainty arises when monetary amounts cannot be observed directly and need to be estimated.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"Revenue is recognized as control is passed, either overtime or at a point in time.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"The account 'Sales return and allowances' covers the costs for potentially damaged goods sold.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 1", type:"tf",
+    q:"There is only one suitable way to estimate the transaction prices.",
+    correct:[false] },
+
+  // --- Exercise 1 second sheet (page 2 clean) ---
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"Development costs can be capitalized under specific requirements according to IAS 38 intangible assets.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"Internally generated goodwill is capitalized.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"The carrying amount is the amount at which an asset is recognized after deducting any accumulated depreciation (amortization) and accumulated impairment losses.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"A cash generating unit (CGU) is the smallest identifiable group of assets that generates cash inflows and is largely correlated to the cash inflows from other assets or groups of assets.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"To be relevant, accounting information must be capable of making a difference in a decision made by users even if some users choose not to take advantage of it or are already aware of it from other sources.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"The right-of-use approach following IFRS 16 Leasing tries to define a lease based upon economic substance, rather than legal form.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"In most cases, a provision is not built, because there is no reliable estimate of the value.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"Revenue is recognized as control is passed, either overtime or at a point in time.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"For each class of provision, an entity shall disclose additional provisions made in the period, including increases to existing provisions.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"Klausur 2", type:"tf",
+    q:"If cost of goods sold increases and the inventory is stable, the inventory turnover decreases.",
+    correct:[false] },
+
+  // --- Page 3/4: 3-option set (T/F/None of the listed) ---
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"The recoverable amount is the higher amount of fair value less costs to sell and net realizable value.",
+    correct:["false"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"Accruals are an example of a provision.",
+    correct:["false"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"Self-generated patents cannot be recognized under IAS 38 because they are internally generated intangible assets.",
+    correct:["false"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"A manufacturing company wins a lawsuit. The resulting cash receipts (e.g., damages) constitute income arising in the course of an entity's ordinary activities and, hence, revenues.",
+    correct:["false"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"Asset turnover is defined as sales / average total assets.",
+    correct:["true"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"The clean surplus relation states that changes in equity derive from cash flows and/or transactions with the owners.",
+    correct:["true"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"The Basic DuPont model decomposes ROE into three factors: net profit margin, asset turnover, and leverage.",
+    correct:["true"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"Internally generated brands, mastheads, publishing titles and customer lists are permitted to be recognized as intangible assets according to IAS 38.",
+    correct:["false"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"The concept that distinguishes other intangible assets from goodwill is: identifiability.",
+    correct:["true"] },
+  { sem:"Vorjahr", cat:"Klausur 3", type:"tfn",
+    q:"Think of the lessee's accounting for lease contract: due to the recognition of the initial amount of a lease liability, the leverage of the company decreases.",
+    correct:["false"] },
+
+  // --- VIPS 01 ---
+  { sem:"Vorjahr", cat:"VIPs 01", type:"sc",
+    q:"What term is meant by the definition: 'The recording of the equal financial effect of transactions on the two elements of those transactions: the item exchanged and the form of settlement, one as a debit and the other as a credit, PLUS the inclusion of an audit trail.'",
+    options:["Double-entry bookkeeping","Notes in the Financial Statements"],
+    correct:[0] },
+  { sem:"Vorjahr", cat:"VIPs 01", type:"tf",
+    q:"Accruals are not based on explicit transactions, hence not recorded on a day-to-day basis.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 01", type:"tf",
+    q:"The accrual concept tells us that we need to record economic events when they happen rather than only when cash exchanges occur [cash accounting].",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 01", type:"tf",
+    q:"ASSET accounts are DEBIT side by nature. So, if you need to decrease an asset account you must place more debits on that account. But if you need to increase, place more credits.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 01", type:"tf",
+    q:"Accrual of unrecorded expenses (e.g., income taxes, interest) is a type of explicit transaction.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 01", type:"ms",
+    q:"What do you include in the Notes in Financial Statements? (mehrere richtig)",
+    options:[
+      "Letter from the CEO, discussing the financial performance",
+      "A summary of significant accounting policies",
+      "The cross-referencing of items on the face of the financial statements and the related note disclosures",
+      "Disclosures required by specific standards in IFRS",
+      "The name of every employee in the accounting department",
+      "A statement of compliance with IFRS"
+    ],
+    correct:[1,2,3,5] },
+
+  // --- VIPS 02 ---
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"Accounting is the production of information about an enterprise and the transmission of that information from those who have it to those who need it.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"In the internal accounting systems of bigger companies, generally there is only one cash account.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"The trial balance is a document that is created before the creation of the balance sheet.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"Accountability in the financial arena means that an individual or department is held responsible for the performance of a specific function.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"IFRS standards are created, discussed, and introduced by a small group of people who have full control of the process.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"tf",
+    q:"The recognition criteria assess the relevance and the faithful representation of a business activity.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 02", type:"ms",
+    q:"What are the basic problems of information asymmetries? (mehrere richtig)",
+    options:["Moral Hazard","Higher Welfare","Pareto Efficiency","Adverse Selection"],
+    correct:[0,3] },
+
+  // --- VIPS 03 ---
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"To be relevant, accounting information must be capable of making a difference in a decision made by users.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"Measurement uncertainty arises when monetary amounts cannot be observed directly and need to be estimated.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"There has never been an error in Financial Statements.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"Neutrality means that a company can hide loss-making business sections.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"Accounting Conservatism leads to later recognition of earnings and earlier recognition of expenses.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"tf",
+    q:"IAS 8 deals with the regulation of Accounting Policies, Changes in Accounting Estimates and Errors.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 03", type:"ms",
+    q:"There are simplified generalizations about the real world in financial reports that are deemed to be appropriate for most circumstances (but not always). Based on these assumptions, which statements are correct?",
+    options:[
+      "Money is the common denominator of economic activity and provides an appropriate basis for accounting measurement and analysis.",
+      "Transactions that change a company's financial statements are recorded only in the periods in which the money inflows.",
+      "The company will exist in the next period.",
+      "The typical reporting period for an enterprise is 52 months or 12 weeks."
+    ],
+    correct:[0,2] },
+
+  // --- VIPS 04 ---
+  { sem:"Vorjahr", cat:"VIPs 04", type:"tf",
+    q:"EXPENSES are decreases in assets, or increases in liabilities, that result in decreases in equity, other than those relating to distributions to holders of equity claims.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 04", type:"tf",
+    q:"EQUITY is the residual interest in the assets of the entity after deducting all its liabilities.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 04", type:"tf",
+    q:"Recognition is appropriate if it results in both relevant information about assets, liabilities, equity, income and expenses and a faithful representation of those items.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 04", type:"ms",
+    q:"What are the useful functions of an income statement? (mehrere richtig)",
+    options:[
+      "It provides a basis for evaluating the capital structure of the firm",
+      "Evaluate the past performance of the company",
+      "Help assess the risk or uncertainty of achieving future cash flows",
+      "Provide a basis for predicting future performance."
+    ],
+    correct:[1,2,3] },
+  { sem:"Vorjahr", cat:"VIPs 04", type:"ms",
+    q:"What are the limitations of the balance sheet in the financial statements? (mehrere richtig)",
+    options:[
+      "The report necessarily omits many items that are of financial value but the company cannot record objectively",
+      "We can't use the information to assess a company's liquidity, solvency, and financial flexibility",
+      "It does not provide a basis for evaluating the capital structure of the firm",
+      "Companies use judgments and estimates to determine many of the items reported"
+    ],
+    correct:[0,3] },
+
+  // --- VIPS 05 ---
+  { sem:"Vorjahr", cat:"VIPs 05", type:"tf",
+    q:"The point of sale can make the revenue recognition process complicated.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 05", type:"tf",
+    q:"Revenue is recognized as control is passed, either overtime or at a point in time.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 05", type:"tf",
+    q:"There is only one suitable way to estimate the transaction prices.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 05", type:"tf",
+    q:"The account 'Sales return and allowances' covers the costs for potentially damaged goods sold.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 05", type:"tf",
+    q:"The fourth step of the Five-Step-Process of revenue recognition is the allocation of the transaction price to performance obligations.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 05", type:"ms",
+    q:"Suppose a car dealership sells a VW T-ROC for 30.000 € in cash, including maintenance for 5 years. Which allocations in the Five-Step-Process of revenue recognition are correct?",
+    options:[
+      "Step 1. Identify the contract: Purchase agreement between customer (C) and car manufacturer (M)",
+      "Step 2. Identify the performance obligation: Purchase obligation comprises the car plus maintenance for 5 years",
+      "Step 3. Determine the transaction price: Car plus maintenance is sold for 30.000 €",
+      "Step 4. Allocation of the transaction price: 30.000 € needs to be split into component for the car and for the maintenance",
+      "Step 5. Recognize income when each performance is satisfied: Recognize 'car' component when car is sold; and 'maintenance' component over the 5 years for which it is contracted."
+    ],
+    correct:[0,1,2,3,4] },
+
+  // --- VIPS 06 ---
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"Inventories are assets in the form of materials or supplies to be consumed in the production process or in the rendering of services.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"IAS 2 applies to the valuation and disclosure of financial instruments.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"Inventory is capitalized when the related revenue is recognized.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"The periodic system for gathering information about inventory costs leads to an exact pricing of inventory and CGS at any time.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"The wage for the head of sales in the company is generally considered in the cost of inventory purchase.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"The retail method estimates the cost of ending inventory by applying an average sales margin to the retail price of products.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"The financial statements shall disclose the carrying amount of inventories carried at fair value less costs to sell.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"If the net realizable value is higher than the purchase costs the higher value should be used and a gain is recognized.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"IAS 8 states for changes in accounting estimates and errors.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 06", type:"tf",
+    q:"To record a loss for a change in value of inventory the correct booking entry is: Dr. Inventory   Cr. Losses from decline in inventory.",
+    correct:[false] },
+
+  // --- VIPS 07 ---
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"IAS 16 describes the accounting treatment for costs subsequent to acquisition.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"IAS 16 does not apply to biological assets related to agricultural activity other than bearer plants.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"Development costs can be capitalized under specific requirements according to IAS 38.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"An entity may choose to depreciate separately the parts of an item that do not have a cost that is significant in relation to the total cost of the item.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"The overall criterion is that all costs that could ever occur to prepare the particular asset for its intended use can be capitalized as part of the cost of an asset.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"There is no derecognition for PP&E.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"tf",
+    q:"To ensure neutrality and representational faithfulness, companies need to consider whether the accounts overstate the value of PP&E relative to fair value.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 07", type:"ms",
+    q:"Which statements are right in terms of the revaluation model? (mehrere richtig)",
+    options:[
+      "Enterprises using the revaluation model need to apply it differently across assets that are in the same 'class'",
+      "Fair value is the price that would be received to sell an asset or paid to transfer a liability in an orderly transaction between market participants at the measurement date",
+      "If there is no market-based evidence of a fair value, an entity may estimate fair value using an income or a depreciated replacement cost"
+    ],
+    correct:[1,2] },
+
+  // --- VIPS 08 ---
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"Intangible asset is an identifiable, non-monetary asset without physical substance.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"Research can always be capitalized on the balance sheet.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"Development costs can be capitalized under specific requirements according to IAS 38.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"In general, medical firms are allowed to capitalize all of their costs to produce a new vaccine.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"The sum of intangibles on the balance sheet for firms according to US GAAP is generally higher in comparison to IFRS.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"There is no derecognition for intangible assets.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"tf",
+    q:"Internally generated goodwill is capitalized.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 08", type:"ms",
+    q:"Which costs are considered in the measurement of an acquired intangible asset? (mehrere richtig)",
+    options:[
+      "All acquisition costs",
+      "Expenditures to make the intangible asset ready for its intended use",
+      "Proportional costs for the auditing process of the intangible asset in the financial statements"
+    ],
+    correct:[0,1] },
+
+  // --- VIPS 09 ---
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"The core principle of an impairment is that an asset must not be carried in the financial statements at more than the highest amount to be recovered through its use or sale.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"IAS 36 prescribes the procedures that an entity applies to ensure that its assets are carried at no more than their recoverable amount.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"IAS 36 also prescribes disclosures.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"An entity shall disclose the amount of impairment losses recognized in profit or loss during the period and the line item(s) of the statement of comprehensive income in which those impairment losses are included.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"The carrying amount is the amount at which an asset is recognized after deducting any accumulated depreciation (amortization) and accumulated impairment losses.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"The value in use is measured using present value techniques and requires the expected cash flows.",
+    correct:[true],
+    note:"Antwortbogen markiert 'Wrong' — laut IAS 36 ist die Aussage allerdings korrekt. Dies ist die fachlich richtige Antwort." },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"tf",
+    q:"A CGU is the smallest identifiable group of assets that generates cash inflows and is largely correlated to the cash inflows from other assets or groups of assets.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 09", type:"sc",
+    q:"What is the correct journal entry for the reversal of an impairment loss?",
+    options:[
+      "Dr. Accumulated Depreciation | Cr. Recovery of Impairment Loss",
+      "Dr. Recovery of Impairment Loss | Cr. Accumulated Depreciation",
+      "Dr. Recovery of Impairment Loss | Cr. PP&E"
+    ],
+    correct:[0] },
+
+  // --- VIPS 10 ---
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"The core characteristic of a lease agreement is that the lessee can use the leased asset but does not have to own it.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"The right-of-use approach following IFRS 16 tries to define a lease based upon economic substance, rather than legal form.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"For a lease contract according to IFRS 16, the customer has to obtain all of the economic benefits and the legal ownership of an asset.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"The right-of-use asset is measured as its original cost minus accumulated depreciation/amortization minus accumulated impairment losses plus adjustment/re-measurement of the lease liability.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"The income of the lessor in an operating lease agreement is normally recognized on the statement of comprehensive income.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"tf",
+    q:"Finance leases (according to IFRS 16 | 67-80) are recognized as a lease receivable for the lessor.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 10", type:"ms",
+    q:"What are correct tests for the classification of operating or finance leases? (mehrere richtig)",
+    options:["Lease term test","Purchase option test","Present value test","Functionality test"],
+    correct:[0,1,2] },
+
+  // --- VIPS 11 ---
+  { sem:"Vorjahr", cat:"VIPs 11", type:"tf",
+    q:"Assets = Liabilities + Equity.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 11", type:"tf",
+    q:"A contingent liability can be a liability, which existence will be confirmed only by the occurrence or non-occurrence of one or more uncertain future events not wholly within the control of the entity.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 11", type:"tf",
+    q:"In most cases, a provision is not built, because there is no reliable estimate of the value.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 11", type:"tf",
+    q:"It is possible to differentiate between current and non-current provisions.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 11", type:"tf",
+    q:"Provisions are measured at the present value of the expenditures expected.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 11", type:"ms",
+    q:"Which items should an entity disclose for each class of provision? (mehrere richtig)",
+    options:[
+      "Carrying amount at the beginning and end of the period",
+      "Additional provisions made in the period",
+      "Amounts used during the period",
+      "Unused amounts reversed during the period",
+      "The contracts from which the provisions arise"
+    ],
+    correct:[0,1,2,3] },
+
+  // --- VIPS 12 ---
+  { sem:"Vorjahr", cat:"VIPs 12", type:"tf",
+    q:"The text in the management commentary is restricted by existing IASB Rules.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 12", type:"tf",
+    q:"One quantitative threshold for segment reporting is the revenue test. It says that the segment needs to be reported if the reported revenue, from internal and external customers, is 10% or more of the combined revenue (internal and external) of all operating segments.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 12", type:"tf",
+    q:"An entity shall cross-reference each item in the statements of financial position and in the statement(s) of profit or loss and other comprehensive income, and in the statements of changes in equity and of cash flows to any related information in the notes.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 12", type:"tf",
+    q:"An entity shall disclose the date when the financial statements were authorized for issue and who gave that authorization. If the entity's owners or others have the power to amend the financial statements after issue, the entity shall disclose that fact.",
+    correct:[true] },
+  { sem:"Vorjahr", cat:"VIPs 12", type:"tf",
+    q:"The publication of a merger plan is an adjusting event for the company.",
+    correct:[false] },
+  { sem:"Vorjahr", cat:"VIPs 12", type:"ms",
+    q:"It is possible to aggregate two or more operating segments into a single operating segment if they share similar characteristics. Some of the characteristics are: (mehrere richtig)",
+    options:[
+      "Products and services",
+      "Production processes",
+      "Class of customer",
+      "Methods of distribution",
+      "Regulatory environment"
+    ],
+    correct:[0,1,2,3,4] },
+
+  // ===================== AKTUELL =====================
+  // --- PPE (Practice It) ---
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"Which are the main characteristics of PPE? (mehrere richtig)",
+    options:["Non-mobile","Current","Held to earn rents","Mobile","Non-current","Held for use","Intangible","Tangible","Held for sale"],
+    correct:[4,5,7] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"Which are the two recognition criteria of PPE? (mehrere richtig)",
+    options:["Cost can be measured reliably","It's probable that future economic benefits linked to the item will flow to the entity","Useful life can be determined","It increases the company's market share","It increases the value of the company","There is no impairment related to the item of PPE"],
+    correct:[0,1] },
+  { sem:"Aktuell", cat:"PPE", type:"sc",
+    q:"What happens with PPE if future economic benefits are not expected to flow to the entity?",
+    options:["Cost incurred should be recognized as a provision because the recognition criteria are not met","Cost incurred should be recognized as an expense because the recognition criteria are not met","Cost incurred should be recognized as inventory until the asset is used","Cost incurred should be recognized as goodwill as they relate to strategic planning"],
+    correct:[1] },
+  { sem:"Aktuell", cat:"PPE", type:"sc",
+    q:"Should we consider estimated costs of dismantling and removing an item as part of the acquisition cost of PPE?",
+    options:["No, according to the Prudence Principle unrealized costs should not be taken into account until they are realized","No, according to the Matching Principle we should recognize estimated costs at the end of the useful life when costs are actually incurred","Yes, they increase the acquisition cost and are depreciated over time","Yes, but only if it is planned that the costs will occur within the same financial year","Yes, we should recognize a provision due to a future obligation resulting from the dismantling and disposal"],
+    correct:[2] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"What CANNOT be taken into account when measuring PPE? (mehrere richtig)",
+    options:["Initial maintenance to make a used machine functional","Purchase price","Transport costs","Site preparation","Administrative costs","Maintenance and repairs after commissioning","Training costs","Borrowing costs"],
+    correct:[4,5,6] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"Which statements are correct regarding subsequent measurement using the cost model or the revaluation model? (mehrere richtig)",
+    options:["A policy change is possible, but only under very specific conditions","A change in the measurement model must be disclosed in the notes to the financial statements","The cost model does not require impairment testing","In principle, the cost model should always be chosen","The chosen model must be applied consistently to a whole class of assets","The revaluation model does not require annual depreciation/amortization"],
+    correct:[0,1,4] },
+  { sem:"Aktuell", cat:"PPE", type:"sc",
+    q:"A company acquires an asset for EUR 57,000 on 31 Dec 20X4. Revalued at EUR 51,000 on 31 Dec 20X5 and EUR 59,000 on 31 Dec 20X6. Uses revaluation model. How should each revaluation be treated in the statement of comprehensive income? (Ignore taxes)",
+    options:["20X5: Expense 6,000 — 20X6: OCI 8,000","20X5: Expense 6,000 — 20X6: Income 6,000 + OCI 2,000","20X5: Expense 6,000 — 20X6: Income 8,000","20X5: Negative OCI 6,000 — 20X6: OCI 8,000"],
+    correct:[1] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"To which effect leads a revaluation increase (fair value > book value)? (mehrere richtig)",
+    options:["The revaluation increase impacts the income statement as it is recognized in OCI","The revaluation increase is recorded as an increase in PPE on the balance sheet","The revaluation increase is recognized in profit or loss","The increase is transferred to a revaluation surplus under equity in the balance sheet"],
+    correct:[0,1,3] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"Which costs are subsequently capitalized as PPE and NOT expensed when incurred? (mehrere richtig)",
+    options:["Costs associated with major inspections of the asset","Costs associated with repairs of the asset","Costs associated with usual maintenance of the asset","Costs associated with an improvement of the quality of the asset","Costs associated with an increase in productivity of the asset"],
+    correct:[0,3,4] },
+  { sem:"Aktuell", cat:"PPE", type:"ms",
+    q:"What is the purpose of component accounting? (mehrere richtig)",
+    options:["Derecognizing the book value of the old component and simultaneously capitalizing the new one results in a more realistic valuation","Different components often have different useful lives, so component accounting allows more accurate depreciation and more realistic cost allocation over time","To reach a longer overall depreciation period by combining components with shorter lives into the total asset","Since component accounting uses accelerated depreciation of high-value components to maximize tax deductions, the purpose is primarily tax-driven"],
+    correct:[0,1] },
+
+  { sem:"Aktuell", cat:"PPE", type:"sc",
+    q:"Which accounting approach is shown in the figure below?\n\nTABLE_COMPONENT_DIAGRAM",
+    options:[
+      "Revaluation model",
+      "Single-asset approach",
+      "Component accounting",
+      "Uniform depreciation approach",
+      "Cost model"
+    ],
+    correct:[2],
+    note:"The diagram shows two components (blue lines) each depreciating to zero within their respective useful lives (t0–t10 and t10–t20), while the overall asset (black line) depreciates over the full 20-year period with a residual value (RV). This is characteristic of component accounting under IAS 16.",
+    table:`<div style="margin:14px 0 20px;">
+      <svg viewBox="0 0 420 240" xmlns="http://www.w3.org/2000/svg" style="max-width:480px;width:100%;display:block;background:#f0f8fd;border:1.5px solid #5bbde4;border-radius:2px;padding:8px;">
+        <!-- Axes -->
+        <line x1="60" y1="20" x2="60" y2="200" stroke="#0d2d5e" stroke-width="2"/>
+        <line x1="60" y1="200" x2="400" y2="200" stroke="#0d2d5e" stroke-width="2"/>
+        <!-- Y-axis label -->
+        <text x="10" y="60" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif" font-weight="600">carrying</text>
+        <text x="10" y="74" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif" font-weight="600">value</text>
+        <!-- RV label -->
+        <text x="28" y="172" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif" font-weight="700">RV</text>
+        <line x1="55" y1="168" x2="65" y2="168" stroke="#0d2d5e" stroke-width="1.5"/>
+        <!-- X-axis time labels -->
+        <text x="57" y="216" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif">t₀</text>
+        <text x="140" y="216" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif">t₅</text>
+        <text x="218" y="216" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif">t₁₀</text>
+        <text x="298" y="216" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif">t₁₅</text>
+        <text x="375" y="216" font-size="11" fill="#0d2d5e" font-family="Inter Tight, sans-serif">t₂₀</text>
+        <!-- Arrow on x-axis -->
+        <polygon points="400,200 393,196 393,204" fill="#0d2d5e"/>
+        <!-- Black outer line: total asset depreciates from top-left to RV at t20 -->
+        <line x1="60" y1="30" x2="390" y2="168" stroke="#0d2d5e" stroke-width="2.5"/>
+        <!-- Black horizontal RV line -->
+        <line x1="60" y1="168" x2="390" y2="168" stroke="#0d2d5e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- Blue component 1: t0 to t10, from component1-start down to RV level -->
+        <line x1="60" y1="120" x2="225" y2="200" stroke="#1a72b8" stroke-width="2"/>
+        <!-- Blue component 1 top horizontal -->
+        <line x1="60" y1="120" x2="60" y2="120" stroke="#1a72b8" stroke-width="2"/>
+        <!-- Blue component 2: t10 to t20, starts fresh at t10 -->
+        <line x1="225" y1="120" x2="390" y2="200" stroke="#1a72b8" stroke-width="2"/>
+        <!-- Vertical line at t10 -->
+        <line x1="225" y1="120" x2="225" y2="200" stroke="#0d2d5e" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- tick marks on x axis -->
+        <line x1="155" y1="197" x2="155" y2="203" stroke="#0d2d5e" stroke-width="1.5"/>
+        <line x1="225" y1="197" x2="225" y2="203" stroke="#0d2d5e" stroke-width="1.5"/>
+        <line x1="308" y1="197" x2="308" y2="203" stroke="#0d2d5e" stroke-width="1.5"/>
+        <line x1="390" y1="197" x2="390" y2="203" stroke="#0d2d5e" stroke-width="1.5"/>
+      </svg>
+    </div>` },
+
+  // --- Inventory (Practice It) ---
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"A bike manufacturer owns several assets. Which of these assets are included in the definition of inventories according to IAS 2? (mehrere richtig)",
+    options:[
+      "Patents on frame designs",
+      "Office furniture",
+      "Bike frames that are in the process of being built",
+      "Construction material, such as screws and glue",
+      "Finished bikes ready to be shipped",
+      "Bike components, such as gearshifts, brakes, and handles",
+      "Welding machinery for frame construction",
+      "Short-term investments into government bonds"
+    ],
+    correct:[2,3,4,5] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"Which methods of inventory valuation are applicable according to IAS 2? (mehrere richtig)",
+    options:[
+      "All inventories can be valued using weighted average cost formulas",
+      "First-in-first-out (FIFO) can be used for large numbers of items of inventory that are ordinarily interchangeable",
+      "Inventories that are not ordinarily interchangeable need to be valued using their individual costs",
+      "Last-in-first-out (LIFO) can be used for large numbers of items of inventory that are ordinarily interchangeable"
+    ],
+    correct:[1,2] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"Which of the following statements about inventory valuation are TRUE? (mehrere richtig)",
+    options:[
+      "Indirect costs of production can only be included assuming normal capacity",
+      "When the value of inventory falls below its initial cost, it is written off completely",
+      "The value of inventory cannot increase above the initial cost",
+      "Materials held for use in the production are not written down below cost if the finished products in which they will be incorporated are expected to be sold at or above cost",
+      "The value of inventory may fall below its initial cost due to, e.g., physical deterioration or product obsolescence",
+      "If circumstances that previously caused inventories to be written down no longer exist, the amount of the write down is reversed"
+    ],
+    correct:[3,4,5] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"Why is Value Added Tax (VAT) not included in the initial recognition of inventory? (mehrere richtig)",
+    options:[
+      "Would lead into an overstatement of inventory costs",
+      "Taxes are generally not considered a cost of inventory",
+      "Gross and net profit would be overstated",
+      "VAT is typically paid by the supplier and thus not a relevant cost for the customer",
+      "Gross and net profit would be understated",
+      "VAT is refundable and thus not a cost",
+      "Would lead into an understatement of inventory costs"
+    ],
+    correct:[0,5] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"EcoPower Inc., a supplier of heat pumps, purchases 100 heat pumps from a manufacturer in Asia for EUR 8,000 each. Shipment costs: EUR 840. Delivery picked up one week after arrival. Processing fee: EUR 200. Storage costs: EUR 120. VAT 19%. Administrative costs: EUR 336. Which should be considered part of the cost of inventory? (mehrere richtig)",
+    options:[
+      "Administrative costs (EUR 336)",
+      "Purchase price (EUR 800,000)",
+      "VAT (19%)",
+      "Processing fee (EUR 200)",
+      "Storage costs (EUR 120)",
+      "Shipment cost (EUR 840)"
+    ],
+    correct:[1,3,5] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"What does IAS 2 mean by \"Net Realizable Value (NRV)\"? (mehrere richtig)",
+    options:[
+      "Net amount that is expected to be realized from selling the inventory in usual business transactions",
+      "Probable replacement costs in case inventory is a raw material or other supply",
+      "Hypothetical inventory value based on the entity's expected profit margin",
+      "Sales price that is expected to be realized from selling the inventory in usual business transactions not considering any selling costs"
+    ],
+    correct:[0,1] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"sc",
+    q:"GreenBite GmbH is an organic fruit and vegetable supermarket. On May 10, 20X5, GreenBite GmbH bought 500kg of pears at EUR 2.50/kg (= EUR 1,250 total). On June 30, 20X5, the market price fell to EUR 2.00/kg due to oversupply. Estimated selling costs: EUR 200 total. What amount should the company recognize as cost of inventory?",
+    options:[
+      "EUR 800",
+      "EUR 1,250",
+      "EUR 1,000"
+    ],
+    correct:[0],
+    note:"NRV = EUR 1,000 – EUR 200 = EUR 800. Inventory must be written down to EUR 800 (lower of cost and NRV)." },
+
+  { sem:"Aktuell", cat:"Inventory", type:"sc",
+    q:"Which of the following statements about FIFO and LIFO is TRUE?",
+    options:[
+      "If prices are, on average, increasing over time, using FIFO as a valuation formula leads to recognizing higher carrying values of inventory on the balance sheet",
+      "If prices are, on average, increasing, the carrying amount of inventory will typically be closer to the net realizable value when using FIFO compared to LIFO",
+      "Management can switch from one inventory valuation formula to another without justification",
+      "If prices are, on average, decreasing over time, using LIFO as a valuation formula leads to building up hidden reserves on the balance sheet"
+    ],
+    correct:[0] },
+
+  { sem:"Aktuell", cat:"Inventory", type:"ms",
+    q:"SpeedTech Electronics sells a computer for EUR 1,300 in cash. Prior purchase price: EUR 800. How does this transaction affect the Income Statement and Balance Sheet? (mehrere richtig)",
+    options:[
+      "Income Statement – Cash + EUR 1,300",
+      "Income Statement – COGS – EUR 800",
+      "Balance Sheet – Inventory – EUR 800",
+      "Balance Sheet – Retained Earnings + EUR 500",
+      "Income Statement – Retained Earnings + EUR 500",
+      "Balance Sheet – COGS – EUR 800",
+      "Income Statement – Inventory – EUR 800",
+      "Balance Sheet – Cash + EUR 1,300",
+      "Income Statement – Revenue + EUR 1,300",
+      "Income Statement – Gross Profit + EUR 500",
+      "Balance Sheet – Gross Profit + EUR 500",
+      "Balance Sheet – Revenue + EUR 1,300"
+    ],
+    correct:[1,3],
+    note:"Dr. COGS 800 Cr. Inventory 800 → IS: COGS –800. Dr. Cash 1,300 Cr. Revenue 1,300 → BS: Cash +1,300, Retained Earnings net +500." },
+
+  { sem:"Aktuell", cat:"Inventory", type:"sc",
+    q:"A company has two products in its ending inventory (IAS 2). What unit values should be used at year-end?\n\nTABLE_PRODUCT_NRV",
+    options:[
+      "EUR 40 and EUR 70",
+      "EUR 45 and EUR 90",
+      "EUR 50 and EUR 104",
+      "EUR 35 and EUR 64"
+    ],
+    correct:[3],
+    note:"NRV #1 = 60 – 10 – 15 = 35 < cost 40 → use EUR 35. NRV #2 = 130 – 26 – 40 = 64 < cost 70 → use EUR 64.",
+    table:`<table style="border-collapse:collapse;margin:14px 0;font-size:14px;font-family:'Inter Tight',sans-serif;max-width:520px">
+      <thead>
+        <tr>
+          <th style="border:1px solid #1a72b8;padding:8px 14px;background:#0d2d5e;color:#fff;text-align:left"></th>
+          <th style="border:1px solid #1a72b8;padding:8px 14px;background:#0d2d5e;color:#fff;text-align:center">Product #1</th>
+          <th style="border:1px solid #1a72b8;padding:8px 14px;background:#0d2d5e;color:#fff;text-align:center">Product #2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#e8f4fb">
+          <td style="border:1px solid #5bbde4;padding:7px 14px;font-weight:600;color:#0d2d5e">Selling price</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 60</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 130</td>
+        </tr>
+        <tr style="background:#f0f8fd">
+          <td style="border:1px solid #5bbde4;padding:7px 14px;font-weight:600;color:#0d2d5e">Historical cost</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 40</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 70</td>
+        </tr>
+        <tr style="background:#e8f4fb">
+          <td style="border:1px solid #5bbde4;padding:7px 14px;font-weight:600;color:#0d2d5e">Cost to sell</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 10</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 26</td>
+        </tr>
+        <tr style="background:#f0f8fd">
+          <td style="border:1px solid #5bbde4;padding:7px 14px;font-weight:600;color:#0d2d5e">Cost to complete</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 15</td>
+          <td style="border:1px solid #5bbde4;padding:7px 14px;text-align:center">EUR 40</td>
+        </tr>
+      </tbody>
+    </table>` },
+
+  // --- Revenue Recognition (Practice It) ---
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"ms",
+    q:"What are the conditions when income should be recognized according to the IFRS Conceptual Framework? (mehrere richtig)",
+    options:[
+      "When there is a possibility of a faithful representation of the asset or liability (and any corresponding income, expense or change in equity)",
+      "When there is a high probability that cash will be collected within 12 months of the contract",
+      "When all expenses have been settled",
+      "When the probability that an inflow of economic benefits will occur is not low"
+    ],
+    correct:[0,3] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"ms",
+    q:"What are the trade-offs when deciding at which point we should recognize revenues? (mehrere richtig)",
+    options:[
+      "There is no trade-off: Revenue should be recognized when an invoice is sent or when a contract is signed",
+      "Early revenue recognition: Anticipation of relevant, but more uncertain future cash flows",
+      "There is no trade-off: Revenue can be recognized at any time as long as cash is received",
+      "Late revenue recognition: Future cash flows are more certain, but financial statements provide less incremental information relative to cash accounting"
+    ],
+    correct:[1,3] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"IFRS 15 \"Revenue from Contracts with Customers\" introduces a five-step framework. What is the correct order of the five steps?",
+    options:[
+      "1. Identify the contract → 2. Determine the transaction price → 3. Identify performance obligations → 4. Allocate the transaction price → 5. Recognize revenue",
+      "1. Identify the contract → 2. Identify separate performance obligations → 3. Determine the transaction price → 4. Allocate the transaction price to the separate performance obligations → 5. Recognize revenue when each performance obligation is satisfied",
+      "1. Determine the transaction price → 2. Identify the contract → 3. Identify performance obligations → 4. Recognize revenue → 5. Allocate the transaction price",
+      "1. Identify performance obligations → 2. Identify the contract → 3. Allocate the transaction price → 4. Determine the transaction price → 5. Recognize revenue"
+    ],
+    correct:[1] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"NovaX Solutions AG, a software company, develops ERP systems. A customer requests a feasibility analysis before deciding to purchase the software. NovaX issues an invoice of EUR 12,000 for the analysis. Does an identifiable contract for an ERP software according to IFRS 15 exist?",
+    options:[
+      "Yes, because a clear agreement with specific performance obligations exists",
+      "No, because the feasibility analysis is an independent consulting service (separate contract) that does not automatically lead to the delivery of the software",
+      "No, because there is no clear indication that the contract was concluded in writing",
+      "Yes, because payment terms for the services to be transferred can be identified"
+    ],
+    correct:[1] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"A customer decides to renew the energy system of her office building and awards the project to EcoPower Inc. Both enter into three contracts within one month: Contract 1: Delivery and installation of a heat pump EUR 55,000; Contract 2: Delivery and installation of solar panels and battery storage EUR 30,000; Contract 3: Maintenance service for three years EUR 1,000/year. EcoPower normally charges EUR 2,000/year for maintenance. Can EcoPower combine these contracts for revenue recognition according to IFRS 15?",
+    options:[
+      "Yes, because the contracts were entered into near the same time with the same customer and because the pricing of maintenance service is impacted by the existence of the other contracts",
+      "Yes, because the contracts were entered into near the same time with the same customer and because the contracts pursue the intent of meeting a singular business purpose",
+      "No, because all goods or services promised in the contracts can be used independently",
+      "Yes, because the contracts were entered into near the same time with the same customer and because the contracts form a single performance obligation"
+    ],
+    correct:[1] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"ms",
+    q:"According to IFRS 15, what are the conditions under which a good or service is considered to be distinct? (mehrere richtig)",
+    options:[
+      "The customer can benefit from the good or service on its own or use it with other resources that the customer already owns",
+      "The good or service can be physically separated from other goods or services",
+      "The good or service is sold separately by the company",
+      "The entity's promise to transfer the good or service to the customer is separately identifiable from other promises in the contract"
+    ],
+    correct:[0,3] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"Firestone Motors GmbH sells e-bikes. The company concludes a contract for: 1. Sale of a new e-bike for EUR 2,700; 2. Free inspection and maintenance for 2 years (included in purchase price). Firestone regularly offers inspection and other services irrespective of whether a bike has been purchased. What are the performance obligations under this contract?",
+    options:[
+      "There is only one performance obligation, because services can never be distinct from a product sale",
+      "There are two separate performance obligations, because the customer could benefit from the e-bike and the maintenance service on its own and both aspects are separately identifiable in the contract",
+      "There is only one performance obligation, because the sale of the e-bike and the service are inseparable according to the contract",
+      "There is only one performance obligation, because the customer cannot benefit from the maintenance service on its own"
+    ],
+    correct:[1] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"FreshPoint AG sells vouchers (EUR 50, EUR 100, EUR 250) which customers can redeem at a later date for any product in the store. Should the company recognize revenue when selling a voucher?",
+    options:[
+      "Yes, because a contract is concluded by selling the voucher",
+      "No, because a voucher is not a distinct good or service",
+      "Yes, because the company already collected the cash",
+      "No, because a voucher is a single good. A performance obligation has to be a series of goods"
+    ],
+    correct:[1],
+    note:"The company should instead recognize a contract liability until the voucher is used to pay for a performance obligation (i.e., delivering goods)." },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"ms",
+    q:"GreenHome GmbH sells 50 AquaSave+ taps at EUR 100 each. Contract conditions: 1. Volume discount: 10% on all 70 taps if the customer buys a further 20 units within a year; 2. Performance bonus: EUR 500 if taps realize >20% water reduction in first 12 months (achieved in 90% of past cases). How should these be recognized in the transaction price? (mehrere richtig)",
+    options:[
+      "Volume discount: +/– EUR 0, since the discount relates to an uncertain future sale. However, if the volume discount constitutes a material right, it should be recognized as a separate performance obligation",
+      "Basic price: + EUR 5,000 (50 taps × EUR 100)",
+      "Volume discount: – EUR 700 (EUR 7,000 × 10%), even though the discount is uncertain, it reduces the transaction price and must be recognized as provision",
+      "Performance bonus: +/– EUR 0, because a bonus should not be part of the transaction price, regardless of whether it is highly probable or not",
+      "Basic price: + EUR 7,000 (70 taps × EUR 100)",
+      "Performance bonus: + EUR 500, because it is the most likely outcome that the target will be achieved and it is highly uncertain that a significant revenue reversal will occur"
+    ],
+    correct:[0,1,5] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"A company enters into a contract to build a factory for EUR 2m, to be completed by 31 October 2018. The contract provides an incentive payment of EUR 250,000 if completed by 30 September 2018, and a price reduction of EUR 250,000 if not completed until after 30 November 2018. Probabilities: 15% completed by 30 Sep, 80% completed in Oct/Nov, 5% not completed until after 30 Nov. What is the expected value of the transaction price?",
+    options:[
+      "EUR 1.75m",
+      "EUR 1.975m",
+      "EUR 2.025m",
+      "EUR 2m"
+    ],
+    correct:[2],
+    note:"EV = (15% × 2.25m) + (80% × 2m) + (5% × 1.75m) = 0.3375 + 1.6 + 0.0875 = EUR 2.025m" },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"A retail store receives an order of 10,000 chocolate Easter bunnies. Since the order came in late, the store receives a bonus of EUR 1,000 if they deliver within 2 days. Based on past experience and current delivery times, there is a 7% chance that the store will achieve this goal. Should the store consider the bonus in the transaction price?",
+    options:[
+      "No recognition of the bonus since it is definitively more likely that the store will not achieve the bonus target",
+      "Yes, the full bonus of EUR 1,000 should be considered since there is a chance to achieve the target which would have a positive impact on revenue",
+      "Yes, but only the expected value of 7% × EUR 1,000 = EUR 70"
+    ],
+    correct:[0],
+    note:"A 7% probability means it is highly unlikely → significant revenue reversal is likely → the variable consideration (bonus) is not included in the transaction price." },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"A shoe retailer allows customers to return shoes within 90 days. The company estimates that 4% of sales will be returned. During the month, the company has sales of EUR 200,000 and returns of sales made in prior months of EUR 5,000. What amount should the company record as net sales revenue for new sales made during the month?",
+    options:[
+      "EUR 192,000",
+      "EUR 195,000",
+      "EUR 187,000",
+      "EUR 200,000"
+    ],
+    correct:[0],
+    note:"Net revenue = EUR 200,000 × (1 – 4%) = EUR 192,000. The EUR 5,000 prior-month returns do not affect new sales revenue recognition." },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"How do you recognize a right of return according to IFRS 15?",
+    options:[
+      "Recognition as a provision until right of return lapses",
+      "Recognition as a separate performance obligation",
+      "Separate recognition of expected revenues (excluding returns), a refund liability, and the right to recover the asset (in case of refund) if there is a sufficient track record from previous sales",
+      "No recognition at all, since it does not influence revenue"
+    ],
+    correct:[2] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"ms",
+    q:"According to IFRS 15, revenue is recognized when an entity satisfies a performance obligation by 'transferring control'. Under which circumstances can an entity recognize revenue OVER TIME instead of at a point in time? (mehrere richtig)",
+    options:[
+      "The customer pays for the good/service in advance",
+      "The customer has the legal title, regardless of the physical possession of the good/service",
+      "The entity creates or enhances an asset that the customer already controls",
+      "The entity and the customer regularly engage in similar activities/contracts",
+      "The asset does not have any alternative use to the entity and an enforceable right to receive payment already exists",
+      "The customer receives the benefits as the entity performs"
+    ],
+    correct:[2,4,5] },
+
+  { sem:"Aktuell", cat:"Revenue Recognition", type:"sc",
+    q:"A construction company concludes a contract with an insurance company for the construction of a new office building (EUR 3m). Key facts: 1. Construction period: 24 months; 2. Payments made regularly according to construction progress; 3. The building is constructed on the insurance company's property; 4. If the contract is cancelled, the construction company is entitled to remuneration for services rendered up to that point. Does the construction company recognize revenue over time or at a point in time?",
+    options:[
+      "At a point in time, because the construction company has the right to payment",
+      "Over time, because the entity creates an asset that the customer already controls during performance",
+      "Over time, because the asset has no alternative use to the entity",
+      "Over time, because the customer receives benefits as the entity performs"
+    ],
+    correct:[1] },
+
+  // ── Intangible Assets ────────────────────────────────────
+  { sem:"Aktuell", cat:"Intangible Assets", type:"ms",
+    q:"Why are not all intangible assets capitalized on financial statements? (Select all correct answers)",
+    options:[
+      "Some intangible assets are difficult to control (e.g. employee know how)",
+      "Some intangible assets are not clearly identifiable (e.g. customer relations)",
+      "By following the prudence principle, an underestimation should be prevented",
+      "Information on intangible assets is already contained in R&D expense on the income statement",
+      "Recognizing intangible assets often does not provide any decision-useful information",
+      "Internally generated intangible assets are difficult to measure"
+    ],
+    correct:[0,1,5],
+    note:"Control (e.g. employee know-how), identifiability (e.g. customer relations), and reliable measurement are the core recognition hurdles under IAS 38. Prudence, R&D overlap, and decision-usefulness are not the stated reasons." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"ms",
+    q:"What are the key characteristics of intangible assets according to IAS 38? (Select all correct answers)",
+    options:[
+      "Non-separable",
+      "Identifiable",
+      "Lack of physical substance",
+      "Non-monetary",
+      "Difficult to measure"
+    ],
+    correct:[1,2,3],
+    note:"IAS 38.8 defines an intangible asset as an identifiable, non-monetary asset without physical substance. 'Non-separable' is wrong — identifiability actually requires that the asset CAN be separated or arises from contractual rights. 'Difficult to measure' is not a defining characteristic." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"ms",
+    q:"Why is internally generated goodwill not an intangible asset, but acquired goodwill is? (Select all reasons that apply)",
+    options:[
+      "It is not identifiable (i.e., there is no contractual basis and it cannot be separated from the other assets of the firm)",
+      "It is difficult to control",
+      "It does not create any future economic benefits",
+      "It is not considered relevant compared to acquired goodwill emerging from business combinations",
+      "It cannot be measured reliably"
+    ],
+    correct:[0,1,4],
+    note:"Internally generated goodwill fails the recognition criteria: it is not identifiable (no contractual/legal basis, inseparable), difficult to control, and cannot be measured reliably (IAS 38.48–49). It does create economic benefits — that is not the issue." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"According to IAS 38, activities undertaken in the 'research' phase of the generation of an asset may include:",
+    options:[
+      "The application of knowledge to a design for the production of new materials",
+      "Original and planned investigation with the prospect of gaining new scientific knowledge",
+      "The use of research findings to create a substantially improved product",
+      "Using knowledge to materially improve a manufacturing device"
+    ],
+    correct:[1],
+    note:"Research is original, planned investigation aimed at gaining new scientific or technical knowledge (IAS 38.56). Applying knowledge to designs, using research findings for products, or improving devices are all development-phase activities." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"ms",
+    q:"Which of the following are specific requirements to recognize development expenses as an asset? (Select all correct answers)",
+    options:[
+      "Ongoing revenue recognition",
+      "Existence of a market",
+      "Detailed plan how the development contributes to firm value",
+      "Expertise from a valuation expert",
+      "Intention to complete",
+      "Availability of adequate resources to complete the development",
+      "Technical feasibility",
+      "Outsourcing to a third party",
+      "Completion and availability for sale",
+      "Reliable measurement of cost"
+    ],
+    correct:[1,2,4,5,6,9],
+    note:"IAS 38.57 PIRATE criteria: Technical feasibility, Intention to complete, Resources available, Ability to use/sell (existence of a market or internal use), Technical & financial feasibility, Expected future economic benefits, and Reliable measurement of cost. Ongoing revenue recognition, valuation expertise, and outsourcing are not criteria." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"During 20X5 and 20X6, vitaPharma AG searches for potential active ingredients for a new medicine against migraine. Research costs amount to EUR 2.5 million. After many tests, an active ingredient is found and vitaPharma AG receives approval for a clinical trial and starts planning the market launch. During this phase, expenses amount to EUR 4 million. Can vitaPharma AG recognize some of the expenses as an intangible asset, and if so, at what amount?",
+    options:[
+      "EUR 0, because intangible assets can only be recognized when they create value on an active market",
+      "EUR 6.5 million, because a success is likely from the start",
+      "EUR 2.5 million, because costs associated with planning the market launch serve marketing purpose and thus must be recognized as expenses",
+      "EUR 4 million, because the technical feasibility and intention to complete are given due to the approval for a clinical trial, among others"
+    ],
+    correct:[3],
+    note:"Research costs (EUR 2.5m) are always expensed (IAS 38.54). Once development criteria are met — here signalled by clinical trial approval — costs can be capitalized. The EUR 4m development-phase costs qualify. Market launch planning costs within that phase may still be included as they relate to bringing the asset to its intended use." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"tf",
+    q:"True or False: Research expenditures that were initially expensed can subsequently be recognized as part of the cost of an intangible asset once it can be recognized (i.e., once the development stage is reached).",
+    correct:[1],
+    note:"IAS 38.71 explicitly prohibits the reinstatement of previously expensed research costs as an asset, even if development criteria are later met." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"When subsequent expenditure on intangible assets occurs, such costs are...",
+    options:[
+      "...transferred to a revaluation reserve account",
+      "...always capitalized to the intangible asset",
+      "...usually immediately expensed",
+      "...recognized directly in retained earnings account"
+    ],
+    correct:[2],
+    note:"IAS 38.20: subsequent expenditure on intangible assets is usually expensed immediately because it is difficult to attribute it to a specific asset beyond the originally recognized one. Capitalization is only permitted in rare circumstances where the expenditure increases the asset's future economic benefits." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"An entity has developed a software and successfully capitalized it as an intangible asset. Historical development costs: EUR 2.7 million. During 20X5 the following costs occur: EUR 34,000 for technical maintenance; EUR 200,000 for development of new functions; EUR 10,000 for design optimization. Which costs can be capitalized to the intangible asset?",
+    options:[
+      "EUR 10,000, because it improves the visual appearance",
+      "EUR 200,000, because new functions improve performance",
+      "EUR 34,000, because maintenance for intangible assets is required regularly",
+      "All costs, because subsequent expenditures on intangible assets are always capitalized"
+    ],
+    correct:[1],
+    note:"Only EUR 200,000 qualifies: development of new functions enhances the asset's future economic benefits beyond the original specification. Maintenance costs (EUR 34,000) maintain existing performance → expensed. Design optimization (EUR 10,000) does not increase economic benefits → expensed (IAS 38.20)." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"When does amortisation of an intangible asset commence?",
+    options:[
+      "Once it enters the development phase",
+      "When the asset is available for use",
+      "When the asset is substantially complete",
+      "When determined by management",
+      "At the start of the accounting period"
+    ],
+    correct:[1],
+    note:"IAS 38.97: amortisation begins when the asset is available for use, i.e. when it is in the location and condition necessary for its intended use — not earlier." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"True or False: All intangible assets are amortized in subsequent periods irrespective of whether they are accounted for using the cost model or revaluation model.",
+    options:[
+      "False, because amortization does not exist for intangible assets with indefinite useful life",
+      "True, amortization is allocated on a systematic basis over the useful life of the intangible asset",
+      "False, because amortization does not exist for intangible assets with finite useful life"
+    ],
+    correct:[0],
+    note:"IAS 38.107: intangible assets with indefinite useful lives are NOT amortized — they are tested for impairment annually instead. Only assets with finite useful lives are amortized (IAS 38.97)." },
+
+  { sem:"Aktuell", cat:"Intangible Assets", type:"sc",
+    q:"Under which circumstances can a company choose the revaluation model for subsequent measurement of an intangible asset?",
+    options:[
+      "If an active market for that type of asset exists",
+      "If the asset is revalued every year",
+      "If the fair value can be estimated using internal valuation models",
+      "If the revaluation model is also used for tangible assets"
+    ],
+    correct:[0],
+    note:"IAS 38.75: the revaluation model is only permitted if there is an active market for the intangible asset. Fair value must be determined by reference to that market — internal valuation models do not suffice." },
+
+  // ── Impairment of Assets ──────────────────────────────────
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"tf",
+    q:"True or false: If the recoverable amount is higher than the carrying amount, an impairment loss must be recognized.",
+    correct:[1],
+    note:"An impairment loss is only recognized when the carrying amount EXCEEDS the recoverable amount (IAS 36.59). If recoverable amount > carrying amount, no loss arises." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"What is the purpose of the impairment test? (Select all correct answers)",
+    options:[
+      "Determine the annual depreciation rate of an asset",
+      "Secure that assets are not overstated",
+      "Assessment of recoverability of the asset (whether through future economic benefits or potential sale)",
+      "Verification of the correct measurement and disclosure of an asset's historical costs"
+    ],
+    correct:[1,2],
+    note:"The impairment test ensures assets are not carried above their recoverable amount (IAS 36.1). Determining depreciation rates and verifying historical costs are not its purpose." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"Which assets are subject to impairment testing under IAS 36? (Select all correct answers)",
+    options:[
+      "Contract assets",
+      "Intangible assets",
+      "Goodwill",
+      "Inventory",
+      "Financial assets",
+      "PPE",
+      "Investment property"
+    ],
+    correct:[1,2,5],
+    note:"IAS 36 applies to PPE, intangible assets, and goodwill. Contract assets (IFRS 15), inventory (IAS 2), financial assets (IFRS 9), and investment property measured at fair value (IAS 40) are explicitly excluded." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"sc",
+    q:"Bring the steps of impairment of an individual asset in the correct order.",
+    options:[
+      "Identification → Recognition → Measuring → Reversal",
+      "Measuring → Identification → Recognition → Reversal",
+      "Identification → Measuring → Recognition → Reversal",
+      "Recognition → Identification → Measuring → Reversal"
+    ],
+    correct:[2],
+    note:"Correct order per IAS 36: (1) Identification of assets with impairment indicators, (2) Measuring the recoverable amount, (3) Recognition of impairment loss, (4) Reversal (if applicable)." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"Which values are relevant when conducting an impairment test? (Select all correct answers)",
+    options:[
+      "Carrying amount",
+      "Original purchase price of an asset",
+      "Recoverable amount",
+      "Value in use",
+      "Fair value less cost to sell",
+      "Undiscounted future cash flows"
+    ],
+    correct:[0,2,3,4],
+    note:"The impairment test compares carrying amount vs. recoverable amount. Recoverable amount = higher of Value in Use and Fair Value less Costs to Sell (IAS 36.18). Original purchase price and undiscounted cash flows are not relevant." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"Which of the following statement(s) is/are TRUE regarding the impairment of assets accounted for using the revaluation model?",
+    options:[
+      "Unlike the cost model, the revaluation model first offsets the loss on impairment against the revaluation surplus, if any exists",
+      "The effect on the P/L is always the same regardless of which model is chosen",
+      "An impairment loss always affects the P/L"
+    ],
+    correct:[0],
+    note:"Under the revaluation model, an impairment loss is first charged against any existing revaluation surplus in OCI; only the excess hits P/L (IAS 36.60). Under the cost model, the full loss goes to P/L — so the P/L effect differs between models." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"Which of the following statements regarding cash-generating units (CGU) are TRUE according to IAS 36? (Select all correct answers)",
+    options:[
+      "CGUs are only used for Goodwill",
+      "CGUs are the smallest identifiable group of assets that generate cash inflows that are largely independent of the cash inflows from other assets",
+      "CGUs are used to test for the impairment of intangible assets",
+      "A CGU is used if it is not possible to estimate the recoverable amount of an individual asset"
+    ],
+    correct:[1,3],
+    note:"A CGU is the smallest group generating largely independent cash inflows (IAS 36.6). CGUs are used when recoverable amounts of individual assets cannot be estimated — not exclusively for goodwill or intangibles." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"sc",
+    q:"A company has two plants A and B. A significant raw material used for the final production in plant A is an intermediate product bought from plant B. 90% of plant A's final product is sold to customers outside of the entity. While there is an active market for the raw material produced in plant B, all of plant B's final production is sold to plant A. Is plant B a separate CGU?",
+    options:[
+      "Yes, because B could sell its products on an active market and thus generate largely independent cash flows",
+      "No, because CGUs can only consist of final products generating revenue, not intermediate products",
+      "No, because the entire production is used by A",
+      "Yes, because any production facility that supplies another plant is considered a CGU"
+    ],
+    correct:[0],
+    note:"The existence of an active market for plant B's output means it could generate cash flows independently of plant A. This is the key criterion for a separate CGU (IAS 36.70), regardless of whether it currently sells externally." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"sc",
+    q:"The carrying amount of a CGU is EUR 700,000, consisting of goodwill EUR 150,000, Cash EUR 25,000, Inventory EUR 75,000 and PPE EUR 450,000. The CGU has a recoverable amount of only EUR 510,000. How is the impairment loss allocated between the assets of the CGU?",
+    options:[
+      "Goodwill EUR 150,000; PPE EUR 40,000",
+      "Goodwill EUR 40,714; Cash EUR 6,786; Inventory EUR 20,357; PPE EUR 122,143",
+      "Goodwill EUR 47,500; PPE EUR 142,500",
+      "Inventory EUR 27,143; PPE EUR 162,857"
+    ],
+    correct:[0],
+    note:"Total loss = 700,000 − 510,000 = 190,000. Step 1: Allocate to goodwill first → 150,000 (IAS 36.104). Remaining = 40,000. Step 2: Cash and Inventory are excluded from allocation (carried at fair value/NRV). Remaining 40,000 → PPE only." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"ms",
+    q:"Which of the following statement(s) is/are CORRECT regarding goodwill impairment and corporate assets? (Select all correct answers)",
+    options:[
+      "Any previously recognized impairment loss on goodwill cannot be subsequently reversed to avoid earnings management and overvaluation of financial statements",
+      "To test for impairment of goodwill, one uses observable stock market valuations and compares them to the carrying value of all assets of the firm",
+      "To test for the impairment of corporate assets, one either allocates them to other CGUs or conducts a separate impairment test for all CGUs that use the corporate asset combined",
+      "Firms have to conduct an impairment test at least annually",
+      "Any impairment loss is always allocated to the assets of a CGU on a pro-rata basis"
+    ],
+    correct:[0,2],
+    note:"Goodwill impairment reversals are prohibited (IAS 36.124). Corporate assets are allocated to CGUs or tested on a combined basis (IAS 36.102). Annual testing is required for goodwill and indefinite-life intangibles — not all assets. Allocation goes to goodwill first, not pro-rata." },
+
+  { sem:"Aktuell", cat:"Impairment of Assets", type:"sc",
+    q:"An entity buys a machine for EUR 100,000 on 01.01.20X1. Useful life: 10 years, no residual value, straight-line depreciation. On 31.12.20X3 the recoverable amount is EUR 50,000 → impairment loss recognized. On 31.12.20X5 the market recovers; new recoverable amount estimated at EUR 75,000. Which amount should be recognized due to reversal?",
+    options:[
+      "EUR 39,286",
+      "EUR 20,000",
+      "EUR 25,000",
+      "EUR 14,286"
+    ],
+    correct:[3],
+    note:"1) BV 31.12.20X3 before impairment: 100,000−(3×10,000)=70,000 → Loss=20,000. 2) New depreciation: 50,000÷7=7,143/yr. 3) BV 31.12.20X5: 50,000−(2×7,143)=35,714. 4) Max. permissible CA without impairment: 100,000−(5×10,000)=50,000. 5) Recoverable 75,000 > max. 50,000 → cap reversal at 50,000. 6) Reversal = 50,000−35,714 = 14,286 (IAS 36.117)." },
+];
+
+// ============================================================
+// State + Rendering + Leitner Box System
+// ============================================================
+// correctStreak[qIdx] = number of consecutive correct answers
+// box: 0 = "Noch nicht gelernt" (never attempted)
+//      1 = "Am Lernen" (attempted at least once, streak < 5)
+//      2 = "Gelernt" (streak >= 5)
+// ============================================================
+
+const STORAGE_KEY = "vips-leitner-v2";
+
+function loadProgress(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){ return JSON.parse(raw); }
+  } catch(e){}
+  return {};
+}
+function saveProgress(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.streaks));
+  } catch(e){}
+}
+
+function getBox(qIdx){
+  const s = state.streaks[qIdx];
+  if(s === undefined) return 0; // never attempted
+  if(s >= 5) return 2; // gelernt
+  return 1; // am lernen
+}
+
+const BOX_LABELS = ["Noch nicht gelernt","Am Lernen","Gelernt ✓"];
+
+const state = {
+  sem: "ALL",
+  filter: "ALL",
+  box: "ALL",  // "ALL", 0, 1, 2
+  order: QUESTIONS.map((_,i)=>i),
+  answers: {},
+  graded: {},
+  streaks: loadProgress(), // qIdx -> consecutive correct count
+};
+
+const quizEl = document.getElementById('quiz');
+const filtersEl = document.getElementById('filters');
+const catbarEl = document.getElementById('catbar');
+const semtabsEl = document.getElementById('semtabs');
+const drawersEl = document.getElementById('drawers');
+
+const SEMESTERS = ["ALL","Vorjahr","Aktuell"];
+
+function semesterCounts(){
+  const c = {ALL:0, Vorjahr:0, Aktuell:0};
+  QUESTIONS.forEach(q=>{ c[q.sem]++; c.ALL++; });
+  return c;
+}
+
+function categories(){
+  const order = [];
+  const seen = new Set();
+  QUESTIONS.forEach(q=>{
+    if(state.sem!=="ALL" && q.sem!==state.sem) return;
+    if(!seen.has(q.cat)){ seen.add(q.cat); order.push(q.cat);}
+  });
+  return order;
+}
+
+function buildSemTabs(){
+  const sc = semesterCounts();
+  semtabsEl.innerHTML = "";
+  SEMESTERS.forEach(s=>{
+    const b = document.createElement('button');
+    b.className = "semtab" + (s===state.sem?" active":"");
+    const label = s==="ALL" ? "Alle" : s;
+    b.innerHTML = label + '<span class="cnt">'+sc[s]+'</span>';
+    b.onclick = ()=>{ state.sem=s; state.filter="ALL"; state.box="ALL"; buildSemTabs(); buildFilters(); buildDrawers(); render(); };
+    semtabsEl.appendChild(b);
+  });
+  document.getElementById('qCount').textContent = QUESTIONS.length + " Q";
+}
+
+function buildFilters(){
+  const cats = ["ALL", ...categories()];
+  filtersEl.innerHTML = "";
+  cats.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = "pill" + (c===state.filter?" active":"");
+    b.textContent = c==="ALL" ? "Alle Kategorien" : c;
+    b.onclick = ()=>{ state.filter=c; buildFilters(); render(); };
+    filtersEl.appendChild(b);
+  });
+  const counts = {};
+  QUESTIONS.forEach(q=>{
+    if(state.sem!=="ALL" && q.sem!==state.sem) return;
+    counts[q.cat]=(counts[q.cat]||0)+1;
+  });
+  catbarEl.innerHTML = categories().map(c=>`<span>${c} <b>${counts[c]}</b></span>`).join("");
+}
+
+function buildDrawers(){
+  const counts = [0,0,0];
+  QUESTIONS.forEach((_,i)=>{
+    const q = QUESTIONS[i];
+    if(state.sem!=="ALL" && q.sem!==state.sem) return;
+    if(state.filter!=="ALL" && q.cat!==state.filter) return;
+    counts[getBox(i)]++;
+  });
+  const total = counts[0]+counts[1]+counts[2] || 1;
+  drawersEl.innerHTML = "";
+
+  // "ALL" tab
+  const allBtn = document.createElement('div');
+  allBtn.className = "drawer" + (state.box==="ALL"?" active":"");
+  allBtn.dataset.box = "all";
+  allBtn.innerHTML = `<div class="dlabel">Alle Schubladen</div><div class="dcount">${counts[0]+counts[1]+counts[2]}</div>`;
+  allBtn.style.borderRight = "1px solid #00000022";
+  allBtn.onclick = ()=>{ state.box="ALL"; buildDrawers(); render(); };
+  // add custom ::after color
+  allBtn.style.position = "relative";
+  if(state.box==="ALL"){
+    const bar = document.createElement('div');
+    bar.style.cssText = "position:absolute;bottom:-1.5px;left:0;right:0;height:3px;background:var(--blue-2);";
+    allBtn.appendChild(bar);
+  }
+  drawersEl.appendChild(allBtn);
+
+  [0,1,2].forEach(box=>{
+    const d = document.createElement('div');
+    d.className = "drawer" + (state.box===box?" active":"");
+    d.dataset.box = box;
+    const pct = Math.round(100*counts[box]/total);
+    d.innerHTML = `
+      <div class="dlabel">${BOX_LABELS[box]}</div>
+      <div class="dcount">${counts[box]}</div>
+      <div class="dbar"><div class="dfill" style="width:${pct}%"></div></div>
+    `;
+    d.onclick = ()=>{ state.box=box; buildDrawers(); render(); };
+    drawersEl.appendChild(d);
+  });
+}
+
+function visibleIndexes(){
+  return state.order.filter(i=>{
+    const q = QUESTIONS[i];
+    if(state.sem!=="ALL" && q.sem!==state.sem) return false;
+    if(state.filter!=="ALL" && q.cat!==state.filter) return false;
+    if(state.box!=="ALL" && getBox(i)!==state.box) return false;
+    return true;
+  });
+}
+
+function render(){
+  const idxs = visibleIndexes();
+  quizEl.innerHTML = "";
+  idxs.forEach((qIdx, pos)=>{
+    const q = QUESTIONS[qIdx];
+    const row = document.createElement('article');
+    row.className = "row";
+    row.dataset.idx = qIdx;
+
+    const num = document.createElement('div');
+    num.className = "qnum";
+    num.textContent = String(pos+1).padStart(2,"0");
+
+    const body = document.createElement('div');
+
+    const tagWrap = document.createElement('div');
+    const tag = document.createElement('span');
+    tag.className = "qtag";
+    tag.textContent = q.cat;
+    const typetag = document.createElement('span');
+    typetag.className = "qtype";
+    typetag.textContent = ({tf:"True / False", tfn:"True / False / None", ms:"Multiple Select", sc:"Single Choice"})[q.type];
+    tagWrap.appendChild(tag); tagWrap.appendChild(typetag);
+
+    // Streak badge
+    const box = getBox(qIdx);
+    const streak = state.streaks[qIdx] || 0;
+    const badge = document.createElement('span');
+    badge.className = "streak-badge s"+box;
+    if(box===0) badge.textContent = "Neu";
+    else if(box===1) badge.textContent = streak+"/5 ✓";
+    else badge.textContent = "Gelernt ✓";
+    tagWrap.appendChild(badge);
+
+    const text = document.createElement('p');
+    text.className = "qtext";
+    text.textContent = q.q.replace(/\n\nTABLE_\w+/,'').trim();
+
+    // Optional table
+    let tableEl = null;
+    if(q.table){
+      tableEl = document.createElement('div');
+      tableEl.style.cssText = "margin:0 0 16px;overflow-x:auto;";
+      tableEl.innerHTML = q.table;
+    }
+
+    const opts = document.createElement('div');
+    opts.className = "opts";
+
+    const userAns = state.answers[qIdx];
+
+    function makeOpt(label, value, isMulti){
+      const lab = document.createElement('label');
+      lab.className = "opt";
+      const inp = document.createElement('input');
+      inp.type = isMulti ? "checkbox" : "radio";
+      inp.name = "q"+qIdx;
+      inp.value = value;
+      if(isMulti){
+        if(Array.isArray(userAns) && userAns.includes(value)) inp.checked = true;
+      }else{
+        if(userAns === value || (Array.isArray(userAns) && userAns[0]===value)) inp.checked = true;
+      }
+      inp.onchange = ()=>{
+        if(isMulti){
+          const cur = Array.isArray(state.answers[qIdx]) ? state.answers[qIdx].slice() : [];
+          if(inp.checked){ if(!cur.includes(value)) cur.push(value); }
+          else { const k = cur.indexOf(value); if(k>=0) cur.splice(k,1); }
+          state.answers[qIdx] = cur;
+          updateScoreboard();
+        }else{
+          state.answers[qIdx] = value;
+          gradeOne(qIdx);
+        }
+      };
+      const lbl = document.createElement('span');
+      lbl.className = "label";
+      lbl.textContent = label;
+      const mark = document.createElement('span');
+      mark.className = "mark";
+      mark.textContent = "";
+      lab.appendChild(inp); lab.appendChild(lbl); lab.appendChild(mark);
+      return lab;
+    }
+
+    if(q.type==="tf"){
+      opts.appendChild(makeOpt("True", true, false));
+      opts.appendChild(makeOpt("False", false, false));
+    } else if(q.type==="tfn"){
+      opts.appendChild(makeOpt("True", "true", false));
+      opts.appendChild(makeOpt("False", "false", false));
+      opts.appendChild(makeOpt("None of the listed", "none", false));
+    } else if(q.type==="sc"){
+      q.options.forEach((o,i)=> opts.appendChild(makeOpt(o, i, false)));
+    } else if(q.type==="ms"){
+      q.options.forEach((o,i)=> opts.appendChild(makeOpt(o, i, true)));
+    }
+
+    // For multi-select: add a Check button
+    let checkBtn = null;
+    if(q.type==="ms"){
+      checkBtn = document.createElement('button');
+      checkBtn.className = "check-ms";
+      checkBtn.textContent = "Check";
+      checkBtn.onclick = ()=>{ gradeOne(qIdx); };
+    }
+
+    const verdict = document.createElement('div');
+    verdict.className = "verdict pending";
+
+    body.appendChild(tagWrap);
+    body.appendChild(text);
+    if(tableEl) body.appendChild(tableEl);
+    body.appendChild(opts);
+    if(checkBtn) body.appendChild(checkBtn);
+    body.appendChild(verdict);
+
+    if(q.note){
+      const n = document.createElement('div');
+      n.style.cssText = "margin-top:8px;font-size:12px;color:var(--muted);font-style:italic;max-width:780px;line-height:1.4;";
+      n.textContent = "Hinweis: " + q.note;
+      body.appendChild(n);
+    }
+
+    row.appendChild(num);
+    row.appendChild(body);
+    quizEl.appendChild(row);
+  });
+
+  document.getElementById('sTotal').textContent = idxs.length;
+  document.getElementById('footTotal').textContent = idxs.length + " Fragen sichtbar · " + QUESTIONS.length + " gesamt";
+  updateScoreboard();
+}
+
+function gradeOne(qIdx){
+  const q = QUESTIONS[qIdx];
+  const row = document.querySelector('.row[data-idx="'+qIdx+'"]');
+  if(!row) return;
+  const ans = state.answers[qIdx];
+  const labels = row.querySelectorAll('.opt');
+  labels.forEach(l=>l.classList.remove('correct','wrong','missed'));
+  labels.forEach(l=>{ const m=l.querySelector('.mark'); if(m) m.textContent=""; });
+
+  if(ans===undefined || (Array.isArray(ans) && ans.length===0)) return;
+
+  let isCorrect = false;
+
+  if(q.type==="tf" || q.type==="tfn" || q.type==="sc"){
+    const userVal = Array.isArray(ans) ? ans[0] : ans;
+    const correctVal = q.correct[0];
+    isCorrect = (userVal === correctVal);
+    labels.forEach(l=>{
+      const inp = l.querySelector('input');
+      const raw = inp.value;
+      let val;
+      if(q.type==="tf") val = (raw==="true");
+      else if(q.type==="tfn") val = raw;
+      else val = parseInt(raw,10);
+      if(val === correctVal){
+        l.classList.add('correct');
+        l.querySelector('.mark').textContent = "✓ Richtig";
+      }
+      if(inp.checked && val !== correctVal){
+        l.classList.add('wrong');
+        l.querySelector('.mark').textContent = "✗ Deine Wahl";
+      }
+    });
+  } else if(q.type==="ms"){
+    const userSet = new Set(Array.isArray(ans)?ans:[]);
+    const correctSet = new Set(q.correct);
+    isCorrect = userSet.size===correctSet.size && [...correctSet].every(x=>userSet.has(x));
+    labels.forEach(l=>{
+      const inp = l.querySelector('input');
+      const val = parseInt(inp.value,10);
+      const isCorr = correctSet.has(val);
+      const picked = inp.checked;
+      if(isCorr && picked){
+        l.classList.add('correct');
+        l.querySelector('.mark').textContent = "✓ Richtig";
+      } else if(!isCorr && picked){
+        l.classList.add('wrong');
+        l.querySelector('.mark').textContent = "✗ Falsch";
+      } else if(isCorr && !picked){
+        l.classList.add('missed');
+        l.querySelector('.mark').textContent = "Verpasst";
+      }
+    });
+  }
+
+  // Update streak
+  const prev = state.streaks[qIdx] || 0;
+  if(isCorrect){
+    state.streaks[qIdx] = prev + 1;
+  } else {
+    state.streaks[qIdx] = (prev === undefined) ? 0 : 0;
+  }
+  saveProgress();
+
+  state.graded[qIdx] = isCorrect;
+  row.classList.add('locked');
+  const cb = row.querySelector('.check-ms');
+  if(cb) cb.disabled = true;
+
+  const v = row.querySelector('.verdict');
+  const newStreak = state.streaks[qIdx];
+  const newBox = getBox(qIdx);
+  if(isCorrect){
+    if(newBox===2){
+      v.textContent = "✓ Richtig! — Gelernt ✓ ("+newStreak+"× in Folge)";
+    } else {
+      v.textContent = "✓ Richtig! — Streak: "+newStreak+"/5";
+    }
+    v.className = "verdict ok";
+  } else {
+    v.textContent = "✗ Falsch — Streak zurückgesetzt";
+    v.className = "verdict no";
+  }
+
+  // Update badge in this row
+  const badge = row.querySelector('.streak-badge');
+  if(badge){
+    badge.className = "streak-badge s"+newBox;
+    if(newBox===0) badge.textContent = "Neu";
+    else if(newBox===1) badge.textContent = newStreak+"/5 ✓";
+    else badge.textContent = "Gelernt ✓";
+  }
+
+  // Add retry button
+  const existingRetry = row.querySelector('.retry-btn');
+  if(!existingRetry){
+    const retry = document.createElement('button');
+    retry.className = "retry-btn";
+    retry.textContent = "↻ Nochmal versuchen";
+    retry.onclick = ()=>{
+      // unlock row, clear answer, re-render this question
+      row.classList.remove('locked');
+      delete state.answers[qIdx];
+      delete state.graded[qIdx];
+      labels.forEach(l=>{
+        l.classList.remove('correct','wrong','missed');
+        const inp = l.querySelector('input');
+        inp.checked = false;
+        const m = l.querySelector('.mark');
+        if(m) m.textContent = "";
+      });
+      v.textContent = ""; v.className = "verdict pending";
+      if(cb){ cb.disabled = false; }
+      retry.remove();
+      updateScoreboard();
+    };
+    v.parentNode.insertBefore(retry, v.nextSibling);
+  }
+
+  updateScoreboard();
+  buildDrawers();
+}
+
+function updateScoreboard(){
+  const idxs = visibleIndexes();
+  let answered = 0, correct = 0, wrong = 0;
+  idxs.forEach(i=>{
+    if(i in state.answers){
+      const v = state.answers[i];
+      const hasAns = Array.isArray(v) ? v.length>0 : v!==undefined;
+      if(hasAns) answered++;
+    }
+    if(i in state.graded){
+      if(state.graded[i]) correct++;
+      else wrong++;
+    }
+  });
+  document.getElementById('sAnswered').textContent = answered;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sWrong').textContent = wrong;
+  const total = correct+wrong;
+  document.getElementById('sPct').textContent = total ? Math.round(100*correct/total) : "—";
+}
+
+function renderResultPanel(){
+  // remove old
+  const old = document.getElementById('resultPanel'); if(old) old.remove();
+  const idxs = visibleIndexes();
+  const total = idxs.filter(i=>i in state.graded).length;
+  if(total===0) return;
+  const correct = idxs.filter(i=>state.graded[i]===true).length;
+  const pct = Math.round(100*correct/total);
+  const panel = document.createElement('div');
+  panel.className = "result";
+  panel.id = "resultPanel";
+  let line = "Solide. Weitermachen.";
+  if(pct>=90) line = "Sehr stark. Klausurreif.";
+  else if(pct>=75) line = "Gut. Die Lücken sind erkennbar.";
+  else if(pct>=50) line = "Brauchbar. Noch eine Runde dann sitzt es.";
+  else line = "Noch nicht da. Wiederholen und gezielt die roten Boxen anschauen.";
+  panel.innerHTML = `
+    <h2>Ergebnis</h2>
+    <p>${total} Fragen ausgewertet. ${line}</p>
+    <div class="big">${pct}<sub>%</sub></div>
+    <p style="margin-top:10px"><strong>${correct}</strong> richtig · <strong>${total-correct}</strong> falsch</p>
+  `;
+  quizEl.appendChild(panel);
+}
+
+// ============================================================
+// Controls
+// ============================================================
+document.getElementById('resultBtn').onclick = ()=>{ renderResultPanel(); window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"}); };
+document.getElementById('clearBtn').onclick = ()=>{
+  state.answers = {}; state.graded = {};
+  const old = document.getElementById('resultPanel'); if(old) old.remove();
+  render();
+};
+document.getElementById('shuffleBtn').onclick = ()=>{
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  render();
+};
+document.getElementById('resetBtn').onclick = ()=>{
+  state.order = QUESTIONS.map((_,i)=>i);
+  state.answers = {}; state.graded = {}; state.filter="ALL"; state.sem="ALL"; state.box="ALL";
+  buildSemTabs(); buildFilters(); buildDrawers(); render();
+};
+
+// "Fortschritt löschen" button
+document.getElementById('wipeBtn').onclick = ()=>{
+  if(confirm("Gesamten Lernfortschritt (alle Streaks) wirklich löschen?")){
+    state.streaks = {};
+    saveProgress();
+    state.answers = {}; state.graded = {};
+    buildDrawers(); render();
+  }
+};
+
+buildSemTabs();
+buildFilters();
+buildDrawers();
+render();
+
+// ── Dark Mode Toggle ──────────────────────────────────────
+(function(){
+  const DARK_KEY = 'vips-darkmode';
+  const root = document.documentElement;
+  const btn  = document.getElementById('darkToggle');
+  const icon = btn.querySelector('.tog-icon');
+  const lbl  = btn.querySelector('.tog-label');
+  const meta = document.querySelector('meta[name="theme-color"]');
+
+  function applyTheme(dark){
+    if(dark){
+      root.setAttribute('data-theme','dark');
+      icon.textContent = '☀️';
+      lbl.textContent  = 'Light';
+      if(meta) meta.setAttribute('content','#0a1520');
+    } else {
+      root.removeAttribute('data-theme');
+      icon.textContent = '🌙';
+      lbl.textContent  = 'Dark';
+      if(meta) meta.setAttribute('content','#0d2d5e');
+    }
+  }
+
+  // Init: prefer saved setting, otherwise respect OS preference
+  const saved = localStorage.getItem(DARK_KEY);
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const startDark = saved !== null ? saved === '1' : prefersDark;
+  applyTheme(startDark);
+
+  btn.addEventListener('click', ()=>{
+    const nowDark = root.getAttribute('data-theme') === 'dark';
+    applyTheme(!nowDark);
+    localStorage.setItem(DARK_KEY, (!nowDark) ? '1' : '0');
+  });
+})();
+</script>
+</body>
+</html>
